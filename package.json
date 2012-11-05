@@ -1,0 +1,16 @@
+{
+  "name": "winemem",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node boot"
+  },
+  "dependencies": {
+    "coffee-script": "*",
+    "express": "3.0.1",
+    "jade": "*",
+    "stylus": "*",
+    "mysql": "*",
+    "sugar": "*"
+  }
+}
