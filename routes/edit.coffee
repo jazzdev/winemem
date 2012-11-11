@@ -23,6 +23,6 @@ exports.get = (req, res) ->
       res.send html
 
 exports.post = (req, res) ->
-  q = db.query 'update wine set ? where id = ?', [req.body, req.params.id], (err) ->
+  db.query 'update wine set ? where id = ?', [req.body, req.params.id], (err) ->
     throwif err
     res.redirect '/'
