@@ -7,7 +7,7 @@ html
     script(src='/js/jquery.tablesorter.min.js')
     script(src='/js/winemem.js')
   body
-    form(action='/add', method='post')
+    form(action='/', method='post')
       table#wines.striped(width='100%')
         thead
           tr
@@ -36,4 +36,4 @@ html
               td= wine.color
               td= wine.buy_again
               td= wine.date_added.format('{MM}/{dd}/{yyyy}')
-              td: a(href="/edit/#{wine.id}") Edit
+              td: a(href="/#{wine.id}/edit") Edit

@@ -1,10 +1,7 @@
 express = require 'express'
 http = require 'http'
 path = require 'path'
-routes =
-  home: require './routes/home'
-  add:  require './routes/add'
-  edit: require './routes/edit'
+require 'express-resource'
 
 app = express()
 
@@ -24,10 +21,7 @@ app.configure () ->
 app.configure 'development', () ->
   app.use express.errorHandler()
 
-app.get '/', routes.home.get
-app.post '/add', routes.add.post
-app.get '/edit/:id', routes.edit.get
-app.post '/edit/:id', routes.edit.post
+app.resource(require('./controllers/wine'))
 
 http.createServer(app).listen app.get('port'), () ->
   console.log "Express server listening on port " + app.get 'port'
