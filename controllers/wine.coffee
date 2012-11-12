@@ -5,11 +5,10 @@ throwif = (err) ->
   throw err if err
 
 exports.index = (req, res) ->
-  console.log 'db', db
   db.query 'select * from wine order by date_added desc', (err, rows) ->
     throwif err
     console.log "DB return #{rows.length} rows"
-    res.render 'home.jade',
+    res.render 'index.jade',
       wines: rows,
       pretty: true
     , (err, html) ->
@@ -17,19 +16,22 @@ exports.index = (req, res) ->
       res.send html
 
 exports.create = (req, res) ->
-  grape = req.body.name.match /(Merlot|Cab||Zin|Tempranillo|Syrah|Shiraz|Malbec)/i
+  wine = req.body
+  grape = wine.name.match /(merlot|cab|zin|tempranillo|syrah|shiraz|malbec)/i
+  console.log 'grape', grape
   if grape?
-    req.body.grape = grape[1]
-    req.body.color = 'red'
-  grape = req.body.name.match /(Pinot Gris|Pinot Grigio|Riesling|Chenin Blanc)/i
+    wine.grape = grape[1]
+    wine.color = 'red'
+  grape = wine.name.match /(pinot gris|pinot grigio|riesling|chenin blanc)/i
   if grape?
-    req.body.grape = grape[1]
-    req.body.color = 'white'
-  color = req.body.name.match /\b(red|white)\b/i
+    wine.grape = grape[1]
+    wine.color = 'white'
+  color = wine.name.match /\b(red|white)\b/i
   if color?
-    req.body.color = color[1]
+    wine.color = color[1]
 
-  db.query 'insert into wine set ?', req.body, (err) ->
+  console.log 'wine', wine
+  db.query 'insert into wine set ?', wine, (err) ->
     throwif err
     res.redirect '/'
 
