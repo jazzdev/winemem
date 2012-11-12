@@ -1,0 +1,39 @@
+doctype 5
+html
+  head
+    title Wine Memory - What wines did I like?
+    link(rel='stylesheet', href='/css/winemem.css')
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js')
+    script(src='/js/jquery.tablesorter.min.js')
+    script(src='/js/winemem.js')
+  body
+    form(action='/', method='post')
+      table#wines.striped(width='100%')
+        thead
+          tr
+            th Wine
+            th Grape
+            th Color
+            th Buy&nbsp;Again?
+            th Date Added
+            th
+          tr
+            td: input#desc(type='text', name='name', size='56')
+            td: input(type='text', name='grape', size='10')
+            td: select(name='color')
+              for value in ['red', 'white', 'other']
+                option= value
+            td: select(name='buy_again')
+              for value in ['unopened', 'yes', 'no', 'maybe']
+                option= value
+            td: input(type='submit', value='Add Wine')
+            td
+        tbody
+          for wine in wines
+            tr
+              td= wine.name
+              td= wine.grape
+              td= wine.color
+              td= wine.buy_again
+              td= wine.date_added.format('{MM}/{dd}/{yyyy}')
+              td: a(href="/#{wine.id}/edit") Edit
