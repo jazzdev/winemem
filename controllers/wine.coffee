@@ -1,22 +1,11 @@
-mysql = require 'mysql'
+db = require '../models/db'
 require 'sugar' # for date formatting
-
-db = mysql.createConnection
-  host: 'localhost',
-  user: 'winemem',
-  password: 'drinkup',
-  database: 'winemem'
 
 throwif = (err) ->
   throw err if err
 
 exports.index = (req, res) ->
-  if not db.connected?
-    db.connect (err) ->
-      throwif err
-      console.log 'DB Connected'
-      db.connected = true
-
+  console.log 'db', db
   db.query 'select * from wine order by date_added desc', (err, rows) ->
     throwif err
     console.log "DB return #{rows.length} rows"
@@ -28,12 +17,6 @@ exports.index = (req, res) ->
       res.send html
 
 exports.create = (req, res) ->
-  if not db.connected?
-    db.connect (err) ->
-      throwif err
-      console.log 'DB Connected'
-      db.connected = true
-
   grape = req.body.name.match /(Merlot|Cab||Zin|Tempranillo|Syrah|Shiraz|Malbec)/i
   if grape?
     req.body.grape = grape[1]
@@ -51,12 +34,6 @@ exports.create = (req, res) ->
     res.redirect '/'
 
 exports.edit = (req, res) ->
-  if not db.connected?
-    db.connect (err) ->
-      throwif err
-      console.log 'DB Connected'
-      db.connected = true
-
   db.query 'select * from wine where id = ?', req.params.id, (err, rows) ->
     throwif err
     res.render 'edit.jade', rows[0], (err, html) ->
