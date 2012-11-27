@@ -1,7 +1,7 @@
 Description
 -----------
 
-A web app for remember which wines you've had and whether
+A web app for remembering which wines you've had and whether
 they are worth buying again.
 
 License
